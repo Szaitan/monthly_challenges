@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
 from django.urls import reverse
+# from django.template.loader import render_to_string
 
 # Create your views here.
 monthly_challenges = {
@@ -32,13 +33,24 @@ def monthly_challenge_by_num(request, month):
 def monthly_challenge(request, month):
     try:
         challenge_text = monthly_challenges[month]
-        response_data = f"<h1>{challenge_text}</h1>"
+        # response_data = render_to_string("challenges/challenge.html")
+        return render(request, "challenges/challenge.html", {
+            "text": challenge_text,
+            "month_name": month,
+        })
     except KeyError:
         return HttpResponse(f"<h1>This {month} is not supported by page.</h1>")
-    return HttpResponse(response_data)
 
 
 def monthly_challenges_all(request):
     # My solution with using
-    response_data = [f"<a href={reverse('month-challenge', args=[key])}><h1>{key}</h1></a>" for key, values in monthly_challenges.items()]
-    return HttpResponse(response_data)
+    months = list(monthly_challenges.keys())
+    print(months)
+    display_list = ""
+    for month in months:
+        month_path = reverse("month-challenge", args=[month])
+        display_list += f"<li><a href='{month_path}'>{month}</a></li>"
+
+    # response_data = [f"<li><a href={reverse('month-challenge', args=[key])}>{key}</a></li>" for key, values in monthly_challenges.items()]
+    # display_list = f"<ul>{response_data}</ul>"
+    return HttpResponse(display_list)
