@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% include "challenges/includes/header.html" with active_challenge="index" %}
+<ul>
+    {% for month in months %}
+        <li><a href="{% url 'month-challenge' month %}">{{ month|title }}</a></li>
+    {% endfor %}
+</ul>
+{% endblock %}
