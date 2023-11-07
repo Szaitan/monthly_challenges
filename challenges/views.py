@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponseNotFound, HttpResponseRedirect, Http404, HttpResponse
 from django.urls import reverse
+from challenges.models import Author, Posts, Tag
 # from django.template.loader import render_to_string
 
 # Create your views here.
@@ -21,6 +22,7 @@ monthly_challenges = {
 
 
 def monthly_challenge_by_num(request, month):
+
     try:
         redirect_month = list(monthly_challenges.keys())[month-1]
     except IndexError:
@@ -42,8 +44,7 @@ def monthly_challenge(request, month):
 
 
 def monthly_challenges_all(request):
-    # My solution with using
-    months = list(monthly_challenges.keys())
+    months = Posts.objects.all()
 
     return render(request, "challenges/challenges.html", {
         "months": months

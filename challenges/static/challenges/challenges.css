@@ -21,11 +21,6 @@ li {
   padding-bottom: 1rem;
 }
 
-li:last-of-type,
-li:nth-of-type(0) {
-  border-bottom: none;
-}
-
 li a {
   text-decoration: none;
   color: #383838;
